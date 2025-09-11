@@ -3,10 +3,18 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../lib/generated/prisma" // <- Asigură-te că această cale există și este corectă
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL") // <- Asigură-te că variabila DATABASE_URL e setată corect în .env
+  url      = env("DATABASE_URL") 
 }
+
+model Store {
+  id        String   @id @default(uuid())
+  name      String
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
