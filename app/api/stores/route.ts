@@ -1,17 +1,17 @@
-import { NextResponse, NextRequest } from "next/server";
-import { getAuth } from "@clerk/nextjs/server"; 
+import { auth } from "@clerk/nextjs/server"; 
+import { NextResponse } from "next/server";
 import prismadb from "@/lib/prismadb";
 
-export async function POST(req: NextRequest) {
- try {
-    const { userId } = getAuth(req);
-    const body = await req.json();
-
-    const { name } = body;
-
+export async function POST(req: Request) {
+  try {
+    const { userId } = await auth(); // ✅ asta funcționează în server routes
+    console.log("USERID:", userId);
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
+
+    const body = await req.json();
+    const { name } = body;
 
     if (typeof name !== "string" || name.trim().length === 0) {
       return new NextResponse("Name is required", { status: 400 });
@@ -28,9 +28,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(store, { status: 201 });
   } catch (error) {
-    console.log("[STORES_POST]", error);
+    console.error("[STORES_POST]", error);
     return new NextResponse("Internal error", { status: 500 });
   }
-};
-
-
+}
