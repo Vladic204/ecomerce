@@ -10,7 +10,7 @@ const SetupPage = () => {
 
     useEffect(() => {
         if (!isOpen) {
-            onOpen();
+         onOpen();
         }
     }, [isOpen, onOpen]);
 

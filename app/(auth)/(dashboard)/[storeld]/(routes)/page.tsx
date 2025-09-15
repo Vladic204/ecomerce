@@ -1,10 +1,21 @@
-const DashboardPage = () => {
-    return (
-  <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "flex-start" }}>
-    This is a Dashboard!
-  </div>
-);
+import prismadb from "@/lib/prismadb";
+
+interface DashboardPageProps {
+  params: { storeId: string };
 }
 
+const DashboardPage = async ({ params }: DashboardPageProps) => {
+  const store = await prismadb.store.findFirst({
+    where: {
+      id: params.storeId,
+    },
+  });
 
-export default  DashboardPage;
+  return (
+    <div>
+      Active Store: {store?.name}
+    </div>
+  );
+};
+
+export default DashboardPage;

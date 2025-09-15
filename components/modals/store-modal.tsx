@@ -36,18 +36,15 @@ export const StoreModal = () => {
       name: "",
     },
   });
-  const router = useRouter();
+  
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
   try {
     setLoading(true);
-    await axios.post("/api/stores", values);
-    toast.success("Magazin creat cu succes!");
-  } catch (error: any) {
-    if (error.response?.status === 401) {
-      // 🔑 dacă nu ești logat, redirect la login
-      router.push("/sign-in");
-      return;
-    }
+
+    const response=await axios.post("/api/stores", values);
+
+    window.location.assign(`/${response.data.id}`);
+  } catch (error) {
     toast.error("A apărut o eroare. Te rugăm să încerci din nou.");
   } finally {
     setLoading(false);
