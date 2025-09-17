@@ -20,6 +20,7 @@ import { Input } from "@/components/ui/input";
 import toast from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";
 
+
 interface SettingsFormProps {
     initialData: Store
 }
@@ -38,11 +39,13 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
      const currentStoreId = (params as Record<string, string | string[] | undefined>).storeId ?? (params as Record<string, string | string[] | undefined>).storeld;
      const storeIdString = Array.isArray(currentStoreId) ? currentStoreId[0] : currentStoreId;
      const router = useRouter();
+
      const [open, setOpen] = useState(false);
      const [loading, setLoading] = useState(false)
 
     const form = useForm<SettingsFormValues>({
        resolver: zodResolver(formSchema),
+<<<<<<< HEAD
        defaultValues: initialData
     });
 
@@ -67,12 +70,13 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
              title="Settings"
              description="Manage store preferences"
            />
+
           <Button 
              disabled={loading}
              variant="destructive"
              size="icon"
              onClick={() => setOpen(true)}
-          >
+
             <Trash className="h-4 w-4"/>
 
           </Button>
@@ -94,8 +98,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
         </FormItem>
       )}
     />
-
-<Button disabled={loading} className="ml-auto" type="submit">
+ <Button disabled={loading} className="ml-auto" type="submit">
       Save changes
     </Button>
   </form>

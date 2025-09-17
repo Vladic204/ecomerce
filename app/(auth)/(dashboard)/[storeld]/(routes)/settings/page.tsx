@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { SettingsForm } from "./components/settings-form";
 
 interface SettingsPageProps {
+<<<<<<< HEAD
   params: Promise<{
     storeId?: string;
     storeld?: string;
@@ -11,18 +12,32 @@ interface SettingsPageProps {
 }
 
 const SettingsPage = async ({ params: routeParams }: SettingsPageProps) => {
+=======
+  params: {
+    storeId: string;
+  };
+}
+
+const SettingsPage = async ({ params }: SettingsPageProps) => {
+>>>>>>> 479b092133dd5842f4e4fa8aa75d6dcd84931ae6
   const { userId } = await auth();
 
   if (!userId) {
     redirect("/sign-in");
   }
 
+<<<<<<< HEAD
   const { storeId, storeld } = await routeParams;
   const effectiveStoreId = storeId ?? storeld ?? "";
 
   const store = await prismadb.store.findFirst({
     where: {
       id: effectiveStoreId,
+=======
+  const store = await prismadb.store.findFirst({
+    where: {
+      id: params.storeId,
+>>>>>>> 479b092133dd5842f4e4fa8aa75d6dcd84931ae6
       userId,
     },
   });
@@ -41,6 +56,9 @@ const SettingsPage = async ({ params: routeParams }: SettingsPageProps) => {
 };
 
 export default SettingsPage;
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> 479b092133dd5842f4e4fa8aa75d6dcd84931ae6
