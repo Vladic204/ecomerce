@@ -12,12 +12,14 @@ export function MainNav( {
    const pathname = usePathname();
    const params = useParams();
 
+   const currentStoreId = (params as Record<string, string | string[] | undefined>).storeId ?? (params as Record<string, string | string[] | undefined>).storeld;
+   const storeIdString = Array.isArray(currentStoreId) ? currentStoreId[0] : currentStoreId;
 
     const routes = [
         {
-            href: `/${params.storeId}/settings`,
+            href: `/${storeIdString}/settings`,
             label: 'Settings', 
-            active: pathname === `/${params.storeId}/settings` 
+            active: pathname === `/${storeIdString}/settings` 
         }      
     ];
 

@@ -17,9 +17,10 @@ if (!userId) {
  redirect("/sign-in");
 }
 
+const storeId = (params as any)?.storeId ?? (params as any)?.storeId;
 const store = await prismadb.store.findFirst({
  where: {
-   id: params.storeId,
+   id: storeId,
    userId,
  },
 });
@@ -36,4 +37,3 @@ return (
    </>
 );
 };
-
