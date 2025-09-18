@@ -1,11 +1,11 @@
 import prismadb from "@/lib/prismadb";
+import { BillboardForm } from "./components/billboard-form";
 
 const BillboardPage = async ({
   params,
 }: {
-  params: { storeId: string; billboardId: string };
-}) => {
-  console.log("PARAMS:", params); // vezi exact ce vine din URL
+  params: {  billboardId: string };
+}) => { 
 
   const billboard = await prismadb.billboard.findUnique({
     where: {
@@ -13,16 +13,14 @@ const BillboardPage = async ({
     },
   });
 
-  if (!billboard) {
-    return <div>Billboard not found</div>;
-  }
 
   return (
-    <div>
-      <h1>Existing Billboard: {billboard.label}</h1>
-      <pre>{JSON.stringify(billboard, null, 2)}</pre>
+    <div className="flex-col">
+      <div className="flex-1 space-y-4 p-8 pt-6">
+      <BillboardForm initialData={billboard}/>
+      </div>
     </div>
   );
-};
+}
 
 export default BillboardPage;
