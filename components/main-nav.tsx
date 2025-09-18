@@ -17,10 +17,21 @@ export function MainNav( {
 
     const routes = [
         {
+            href: `/${params.storeId}`,
+            label: 'Overview', 
+            active: pathname === `/${params.storeId}`,
+        },
+        {
+            href: `/${storeIdString}/billboards`,
+            label: 'Billboards', 
+            active: pathname === `/${storeIdString}/billboard` 
+        },
+    
+        {
             href: `/${storeIdString}/settings`,
             label: 'Settings', 
             active: pathname === `/${storeIdString}/settings` 
-        }      
+        },     
     ];
 
     return (
