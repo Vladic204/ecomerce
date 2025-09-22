@@ -21,8 +21,6 @@ import { Input } from "@/components/ui/input";
 import toast from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";
 import { AlertModal } from "@/components/modals/alert-modal";
-import { ApiAlert } from "@/components/ui/api-alert";
-import { useOrigin } from "@/hooks/use-origin";
 import ImageUpload from "@/components/ui/image-upload";
 
 const formSchema = z.object({
@@ -41,7 +39,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
   }) => {
   const params = useParams();
   const router = useRouter();
-  const origin = useOrigin();
+  
 
   
   const storeId = params?.storeId as string;
@@ -74,6 +72,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
         await axios.post(`/api/${params.storeId}/billboards`, data);
       }
       router.refresh();
+      router.push(`/${params.storeId}/billboards`)
       toast.success(toastMessage);
     } catch (error) {
       toast.error("Something went wrong.");
