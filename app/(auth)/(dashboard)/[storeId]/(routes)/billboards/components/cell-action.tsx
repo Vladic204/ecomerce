@@ -61,7 +61,7 @@ const [open, setOpen] = useState(false);
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
-        <DropdownMenuItem onClick={() => console.log("Update", data.id)}>
+        <DropdownMenuItem onClick={onCopy}>
           <Copy className="mr-2 h-4 w-4" />
           Copy Id
         </DropdownMenuItem>
