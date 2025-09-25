@@ -26,6 +26,17 @@ export function MainNav( {
             label: 'Billboards', 
             active: pathname === `/${storeIdString}/billboards` 
         },
+        {
+            href: `/${storeIdString}/categories`,
+            label: 'Categories', 
+            active: pathname === `/${storeIdString}/categories` 
+        },
+         {
+            href: `/${storeIdString}/sizes`,
+            label: 'Sizes', 
+            active: pathname === `/${storeIdString}/sizes` 
+        },
+    
     
         {
             href: `/${storeIdString}/settings`,

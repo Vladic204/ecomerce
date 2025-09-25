@@ -7,8 +7,8 @@ import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 
 interface ApiAlertProps {
-  title: string;
-  description: string;
+  title: string; // ex: GET, POST
+  description: string; // URL complet
   variant: "public" | "admin";
 }
 
@@ -22,32 +22,29 @@ const variantMap: Record<ApiAlertProps["variant"], BadgeProps["variant"]> = {
   admin: "destructive",
 };
 
-export const ApiAlert: React.FC<ApiAlertProps> = ({
-  title,
-  description,
-  variant,
-}) => {
+export const ApiAlert: React.FC<ApiAlertProps> = ({ title, description, variant }) => {
   const onCopy = () => {
     navigator.clipboard.writeText(description);
     toast.success("API route copied to the clipboard.");
   };
 
   return (
-    <Alert>
-      <Server className="h-4 w-4" />
-      <AlertTitle className="flex items-center gap-x-2">
-        {title}
-        <Badge variant={variantMap[variant]}>{textMap[variant]}</Badge>
-      </AlertTitle>
-      <div className="mt-2 flex items-center justify-between">
-        <p className="font-mono text-sm whitespace-nowrap overflow-x-auto">
-          {description}
-        </p>
+    <Alert className="flex flex-col gap-3 p-4">
+      <div className="flex items-center gap-2">
+        <Server className="h-5 w-5" />
+        <AlertTitle className="flex items-center gap-2 text-base font-semibold">
+          {title}
+          <Badge variant={variantMap[variant]}>{textMap[variant]}</Badge>
+        </AlertTitle>
+      </div>
+
+      <div className="flex items-center justify-between gap-2">
+        <code className="font-mono text-sm break-words flex-1">{description}</code>
         <Button
           onClick={onCopy}
           variant="outline"
           size="icon"
-          className="ml-2 h-8 w-8"
+          className="h-4 w-4 flex-shrink-0"
         >
           <Copy className="h-4 w-4" />
         </Button>
