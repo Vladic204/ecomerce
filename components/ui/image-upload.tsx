@@ -25,30 +25,16 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     setIsMounted(true);
   }, []);
 
-  const onUpload = (result: any) => {
-    console.log("🔄 Cloudinary raw result:", result);
-
-    if (result?.info?.secure_url) {
-      console.log("✅ Uploaded image URL:", result.info.secure_url);
-      onChange([...value, result.info.secure_url]);
-    } else {
-      console.warn("⚠️ No secure_url found in result:", result);
-    }
-  };
-
   const handleRemove = (url: string) => {
-    console.log("🗑 Removing image:", url);
     const newValue = value.filter((item) => item !== url);
-    console.log("📉 New value after remove:", newValue);
     onRemove(newValue);
   };
 
-  if (!isMounted) {
-    return null;
-  }
+  if (!isMounted) return null;
 
   return (
     <div>
+      {/* Lista imaginilor încărcate */}
       <div className="mb-4 flex flex-wrap items-center gap-4">
         {value.map((url, index) => (
           <div
@@ -75,39 +61,46 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         ))}
       </div>
 
-     <CldUploadWidget
-  uploadPreset="nmpmpv"
-  onSuccess={(result: any) => {
-    console.log("✅ Cloudinary success result:", result);
+      {/* Widget Cloudinary */}
+      <CldUploadWidget
+        uploadPreset="nmpmpv"
+        options={{ multiple: true }} // 👈 Asta permite selectarea mai multor imagini
+        onSuccess={(result: any) => {
+          console.log("✅ Cloudinary result:", result);
 
-    if (result?.info?.secure_url) {
-      console.log("🌍 Secure URL:", result.info.secure_url);
-      onChange([...value, result.info.secure_url]);
-    }
-  }}
-  onError={(error: any) => {
-    console.error("❌ Cloudinary upload error:", error);
-  }}
->
-  {({ open }) => {
-    const onClick = () => {
-      console.log("📤 Opening Cloudinary upload widget...");
-      open();
-    };
-    return (
-      <Button
-        type="button"
-        disabled={disabled}
-        variant="secondary"
-        onClick={onClick}
+          if (Array.isArray(result)) {
+            // Cazul când selectezi mai multe imagini odată
+            const urls = result
+              .map((r) => r?.info?.secure_url)
+              .filter(Boolean) as string[];
+            onChange([...value, ...urls]);
+          } else if (result?.info?.secure_url) {
+            // Cazul când selectezi o singură imagine
+            onChange([...value, result.info.secure_url]);
+          }
+        }}
+        onError={(error: any) => {
+          console.error("❌ Cloudinary upload error:", error);
+        }}
       >
-        <ImagePlus className="h-4 w-4 mr-2" />
-        Upload an Image
-      </Button>
-    );
-  }}
-</CldUploadWidget>
-
+        {({ open }) => {
+          const onClick = () => {
+            console.log("📤 Opening Cloudinary upload widget...");
+            open();
+          };
+          return (
+            <Button
+              type="button"
+              disabled={disabled}
+              variant="secondary"
+              onClick={onClick}
+            >
+              <ImagePlus className="h-4 w-4 mr-2" />
+              Upload Images
+            </Button>
+          );
+        }}
+      </CldUploadWidget>
     </div>
   );
 };
